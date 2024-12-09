@@ -15,41 +15,49 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export const users = supabase.from("users");// выпелил тк нашёл что подругому объявляется эта сука
 
 //объявил бота
-export const bot = new Bot<Context>(Deno.env.get("BOT_TOKEN") || "7864266027:AAGJL9Dm7MK-GrBj_iRoTd_3wE1u5q-_lZw"); // тут дописать
+export const bot = new Bot<MyContext>(Deno.env.get("BOT_TOKEN") || "7785377297:AAHQXYH32S0fE5TOZvuN1GPxxAnHOvT0OXg");
 
-// локальная информация о пользователе
+
+
+// info будет нужна для сохранения инфо пользователя в бд (или получения) - представляет из себя набор данных о пользователе  
 export const info: UserInfo = {
   id: 0,
   name: "",
   age: 0,
-  interests: [], // поменять  в интерфейсе
-  time: 0,// меняем 
-  coffee: 0, // меняем и создаём
-  state: "",
+  interests: "",
+  coffee:"",
   done: false,
+  state: "",
 };
 
-// info будет нужна для сохранения инфо пользователя в бд (или получения) - представляет из себя набор данных о пользователе
 bot.command("start", async (ctx) => { // бот получает команду /start
   info.id = Number(ctx.msg.from?.id);
-  if (await getProfile()) {
+  if (Boolean((await database.get(["users", info.id, "done"])).value) != false) {
+    // опитимизировать?
+    info.name = String((await database.get(["users", info.id, "name"])).value);
+    info.age = Number((await database.get(["users", info.id, "age"])).value);
+    info.interests = Array(
+      String((await database.get(["users", info.id, "interests"])).value),
+    );
+
+    info.time = String((await database.get(["users", info.id, "state"])).value);
+    info.state = String(
+      (await database.get(["users", info.id, "state"])).value,
+    );
+    info.rating = Number(
+      (await database.get(["users", info.id, "rating"])).value,
+    );
     await ctx.reply(`Привет, ${info.name}!`, { reply_markup: menuKeyboard });
   } else {
-    await users.insert({
-      tg_id: info.id,
-      state: "setName",
-    });
     await ctx.reply(
-      "Йоу, чё как?! \nТы тут в первый раз. Тогда поясню. \nЯ бот, который поможет завести новые знакомства, встретиться, пообщатся. Ты не против? \nТогда начнём",
+      "Йоу, чё как?! \nТы тут в первый раз. Тогда поясню. \nЯ бот, который поможет завести новые знакомства, встретиться, пообщатся. Ты не против? \nТогда начнём!",
     );
     await ctx.reply(
       "Звать то тебя как? А прозвище то есть?",
-      //{ parse_mode: "HTML" }, // нужно, чтобы использовать теги из html // а я не понял
     );
     setState("setName"); // следующим сообщением боту должно придти имя
   }
 });
-
 // Команда /like
 bot.command("like", async (ctx) => {
     const userId = ctx.from?.id.toString();
@@ -89,17 +97,17 @@ bot.command("stats", async (ctx) => {
     const response = `Статистика: Нравится: ${userRatings.likes}, Не нравится: ${userRatings.dislikes}`;
     await ctx.reply(response);
 });
-
-// обработка подтверждения интересов
+//обработка подтверждения интересов
 bot.callbackQuery("interestsDone", async (ctx) => {
   await ctx.deleteMessage();
-  await ctx.reply("Отлично!");
+  await ctx.reply("Прекрасно");
   await reviewProfile(ctx);
 });
+
 bot.callbackQuery("interestsNotDone", async (ctx) => {
   await ctx.deleteMessage();
-  await ctx.reply("Хорошо, напиши еще увлечений!");
-  setState("setInterests");
+  await ctx.reply("Пиши увлечения");
+  setState("setInterests"); // следующим сообщением боту должно придти имя
 });
 
 bot.hears(
@@ -123,7 +131,7 @@ bot.on("message", async (ctx) => {
           return;
         } else {
           info.name = ctx.msg.text || ""; //сохраняем в переменную
-          await ctx.reply("Ну, проходи тогда,  " + info.name + "!");
+          await ctx.reply("Ну, проходи тогда " + info.name + "!");
           await ctx.reply("Сколько лет то тебе?");
           setState("setAge");
         }
@@ -131,99 +139,83 @@ bot.on("message", async (ctx) => {
 
       case "setAge":
         if (isNaN(Number(ctx.msg.text))) {
-          await ctx.reply("Напиши возраст циферками)))");
+          await ctx.reply("Извини, но нужно ввести возраст числом!");
           return;
         }
         info.age = Number(ctx.msg.text);
-        await ctx.reply(
-          await ctx.reply("Выбери кофейню по душе! \n 1 -Скуратов. 70 лет Октября, 7. \n 2 Скуратов. Мира, 7А. \n  3 -Скуратов. Красный Путь, 63. \n 4 - Скуратов. Иртышская Набережная, 30. \n 5 - Энитайм. Лобкова, 6/1.")//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
-        );
+        await ctx.reply("Круто! Выбери свои интересы!");
+        await ctx.reply("1 - Coddinп 2 -Web-desigm 3 - SMM 4 UX-design 5 - UI-design 6 - PC-building, 7 -PC-repair");
+        setState("setInterests");
+        break;
+
+        
+      case "setInterests":
+       // Отправить клавиатуру с сообщением
+        await ctx.reply("Давай, введи кофейню, где хочешь кофе попить")
+        await ctx.reply("1 -Скуратов. 70 лет Октября, 7.  2 Скуратов. Мира, 7А.   3 -Скуратов. Красный Путь, 63. 4 - Скуратов. Иртышская Набережная, 30.  5 - Энитайм. Лобкова, 6/1.")
         setState("setCoffee");
         break;
-        
-        case "setCoffee":
-        if(isNaN(Number(ctx.msg.text)) || Number(ctx.msg.text) > 5){
-          await ctx.reply("Чёт я тебя не понял|-1-|");
-          return;
-        }
-        info.coffee = Number(ctx.msg.text);
-        await ctx.reply(
-          "Хорошо! а теперь скажи мне время в которое тебе удобно",//"Хорошо! Твоя анкета создана! Жди новых сообщений с предложением попить кофейку!",
-        );
-        await ctx.reply(
-          "PS: напиши только час в 24-часовой системе",
-        );
-        setState("setTime");
-        break;
-
-        case "setTime":
-        if(isNaN(Number(ctx.msg.text)) || Number(ctx.msg.text) > 24){
-          await ctx.reply("Чёт я тебя не понял|-1-|");
-          return;
-        }
-        await ctx.reply("Принял. Только ты не опаздывай) \n тепеь Напиши свои интересы ЧЕРЕЗ ЗАПЯТУЮ");
-        setState("setInterests")
-        break;
 
 
-        
-        case "setInterests":
-        if (ctx.msg.text) {
-          for (const interest of ctx.msg.text?.split(",")) {
-            info.interests.push(interest.trim());
-          }
-        }
+      case "setCoffee":
         await ctx.reply(
-          "Вот это твои интересы:",
+          "Хорошо! Твоя анкета создана! Жди новых сообщений с предложением попить кофейку!",
         );
-        await ctx.reply(
-          info.interests.toString(),
-        );
-        await ctx.reply("Интересно конечно. Это всё??", { reply_markup: yesOrNo }); // смотри bot.callbackQuery
         break;
 
       case "review":
         switch (ctx.msg.text) {
           case "Да!":
-            info.done = true;
-            await ctx.reply("Отлично!");
-            const {data, error} = await users.update({
-              name: info.name,
-              age: info.age,
-              lat: info.lat,
-              long: info.long,
-              time: info.time,
-              interests: info.interests,
-              done: info.done,
-            }).eq("tg_id", info.id).single();
-            console.log(data, error)
-            setState("searching")
+            info.done = true
+            await ctx.reply("Прекрасно");
+            await database.set(["users", info.id, "name"], info.name);
+            await database.set(["users", info.id, "age"], info.age);
+            await database.set(["users", info.id, "interests"], info.interests);
+            await database.set(["users", info.id, "coffee"], info.coffee);
+
             break;
 
           case "Нет, хочу изменить":
-            setState("setName");
-            await ctx.reply("Давайте начнем сначала! Как тебя звать?");
-            info.interests = [];
+            setState("changeProfile");
+            await ctx.reply("Выбери, что хочешь изменить", {
+              reply_markup: changesKeyboard,
+            });
             break;
 
           default:
-            await ctx.reply("Выберай. Синяя или Красная"); // я не понял
+            await ctx.reply("Выбери вариант");
             break;
         }
         break;
-        
-      default:
+      case "changeProfile":
+        switch (ctx.msg.text) {
+          case "Имя":
+            await ctx.reply("Меняй имя или прозвище")
+            break;
+          case "Возраст":
+            await ctx.reply("Ты как так быстро вырос?")
+            break;
+          case "Геопозицию":
+            await ctx.reply("Место меняешь? Да что же такое!")
+            break;
+          case "Интересы":
+            await ctx.reply("Ты бысто переобулся!")
+            break;
+          case "Удобное время":
+            await ctx.reply("Меняй время")
+            break;
+          case "Хочу заполнить профиль заново":
+            await ctx.reply("Удаляю при тебе!")
+            break;
+          default:
+            await ctx.reply("Выбери вариант")
+            break;
+        }
         break;
+
+      
+      default:
+    break;
     }
   }
 });
-// пу пу пу
-//скажем что хуйня
-while (info.state == "searching") {
-  setInterval(async ()=>{
-    const users = await getSimularUsers()
-    if (users.length>0) {
-      console.log("ого")
-    }
-  }, 10000)
-}
