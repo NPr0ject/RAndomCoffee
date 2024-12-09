@@ -264,7 +264,7 @@ bot.on("message", async (ctx) => {
             break;
 
           default:
-            await ctx.reply("Выберай. Синяя или Красная"); // я не понял
+            await ctx.reply("что то пошло не так!"); // я не понял
             break;
         }
         break;
