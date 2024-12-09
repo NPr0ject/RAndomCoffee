@@ -160,7 +160,7 @@ bot.on("message", async (ctx) => {
         }
         info.age = Number(ctx.msg.text);
         await ctx.reply(
-          await ctx.reply("Выбери кофейню по душе!", { reply_markup: interesKeyboard })//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
+          await ctx.reply("Выбери кофейню по душе!")//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
         );
         setState("setCoffee");
         break;
