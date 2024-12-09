@@ -98,7 +98,8 @@ bot.callbackQuery("interestsDone", async (ctx) => {
 });
 bot.callbackQuery("interestsNotDone", async (ctx) => {
   await ctx.deleteMessage();
-  await ctx.reply("Хорошо, напиши еще увлечений!");
+  info.interests = "";
+  await ctx.reply("Хорошо, напиши увлечения занова!");
   setState("setInterests");
 });
 bot.callbackQuery("1", async (ctx) => {
