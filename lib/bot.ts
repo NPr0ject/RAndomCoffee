@@ -1,8 +1,8 @@
 import { Bot, Context } from "https://deno.land/x/grammy@v1.32.0/mod.ts";
-import { menuKeyboard, yesOrNo } from "./lib/keyboards.ts"; // импорт клавиатур
-import { getProfile, reviewProfile, setState, getSimularUsers } from "./lib/functions.ts"; //импорт функций
+import { menuKeyboard, yesOrNo } from "./keyboards.ts"; // импорт клавиатур
+import { getProfile, reviewProfile, setState, getSimularUsers } from "./functions.ts"; //импорт функций
 //import { createClient } from "npm:@supabase/supabase-js"; // database
-import { UserInfo } from "./lib/interfaces.ts";
+import { UserInfo } from "./interfaces.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 const supabase = createClient(
   Deno.env.get("https://goscxscwzyizqwwwiyxe.supabase.co")!,
