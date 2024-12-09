@@ -211,14 +211,14 @@ bot.on("message", async (ctx) => {
             const {data, error} = await users.update({
               name: info.name,
               age: info.age,
-              lat: info.lat,
-              long: info.long,
               time: info.time,
+              coffee: info.coffee,
               interests: info.interests,
               done: info.done,
             }).eq("tg_id", info.id).single();
             console.log(data, error)
-            setState("searching")
+            await ctx.reply("Жди пока Я найду Тебе собеседники)");
+            //setState("searching")
             break;
 
           case "Нет, хочу изменить":

@@ -36,12 +36,12 @@ export async function getSimularUsers() {
 
 export async function reviewProfile(ctx: Context) {
   await setState("review");
-  await ctx.reply("Вот, как тебя увидят другие пользователи:");
+  await ctx.reply(" Недурно. Вот твоя анкета.:");
   await ctx.reply(
     `${info.name}, ${info.age}\n` +
       `Список интересов: ${info.interests.toString()}`,
   );
-  await ctx.reply("Геопозиция района, где будет удообно встретиться:");
+  //await ctx.reply("Геопозиция района, где будет удообно встретиться:");
   //   await ctx.replyWithLocation(info.geo.latitude, info.geo.longitiute);
   await ctx.reply("Все верно?", {
     reply_markup: acceptKeyboard,
