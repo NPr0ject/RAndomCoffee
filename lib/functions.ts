@@ -48,6 +48,11 @@ export async function reviewProfile(ctx: Context) {
   });
 }
 
+export async function getUser(id: number) {
+  const user = (await users.select().eq("tg_id", id).single()).data;
+  return user;
+}
+
 export async function setState(state: string) {
   info.state = state;
   await users.update({ state: info.state }).eq("tg_id", info.id).single();
