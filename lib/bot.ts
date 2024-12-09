@@ -1,5 +1,5 @@
 import { Bot, Context } from "https://deno.land/x/grammy@v1.32.0/mod.ts";
-import { menuKeyboard, yesOrNo } from "./keyboards.ts"; // импорт клавиатур
+import { menuKeyboard, yesOrNo, interesKeyboard } from "./keyboards.ts"; // импорт клавиатур
 import { getProfile, reviewProfile, setState, getSimularUsers } from "./functions.ts"; //импорт функций
 import { createClient } from "npm:@supabase/supabase-js"; // database
 import { UserInfo } from "./interfaces.ts";
@@ -159,9 +159,7 @@ bot.on("message", async (ctx) => {
           return;
         }
         info.age = Number(ctx.msg.text);
-        await ctx.reply(
-          await ctx.reply("Выбери кофейню по душе!")//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
-        );
+          await ctx.reply("Выбери кофейню по душе!", { reply_markup: interesKeyboard } )//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
         setState("setCoffee");
         break;
         
