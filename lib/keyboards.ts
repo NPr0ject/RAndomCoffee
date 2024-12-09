@@ -15,19 +15,19 @@ export const changesKeyboard = new Keyboard().text(
   .row().text("Имя").text("Возраст").row().text("Интересы").text("Геопозицию")
   .row().text("Удобное время").resized(true).oneTime(true);
 
-export const yesOrNo = new InlineKeyboard().text("Да✅", "interestsDone").text(
-  "Нет❌",
+export const yesOrNo = new InlineKeyboard().text("ВСЁ ОК", "interestsDone").text(
+  "ВСЁ не ОК",
   "interestsNotDone",
 );
 
 export const menuKeyboard = new Keyboard().text("Мой профиль 👤");
 
 export const interesKeyboard = new InlineKeyboard()
-  .text("Скуратов. 70 лет Октября, 7").row()
-  .text("Скуратов. Мира, 7А").row()
-  .text("Скуратов. Красный Путь, 63").row()
-  .text("Скуратов. Иртышская Набережная, 30").row()
-  .text("Энитайм. Лобкова, 6/1");
+  .text("Скуратов. 70 лет Октября, 7", "1").row()
+  .text("Скуратов. Мира, 7А", "2").row()
+  .text("Скуратов. Красный Путь, 63", "3").row()
+  .text("Скуратов. Иртышская Набережная, 30", "4").row()
+  .text("Энитайм. Лобкова, 6/1", "5");
 
 
 export const coffeeKeyboard=new InlineKeyboard()
