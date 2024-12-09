@@ -2,7 +2,7 @@ import { webhookCallback } from "https://deno.land/x/grammy@v1.32.0/mod.ts";
 import express, { Request, Response } from 'npm:express';
 import { bot, supabase } from "./lib/bot.ts";
 import { menuKeyboard, yesOrNo } from "./lib/keyboards.ts"; // импорт клавиатур
-import { getProfile, reviewProfile, setState, getSimularUsers } from "./functions.ts"; //импорт функций
+import { getProfile, reviewProfile, setState, getSimularUsers } from "./lib/functions.ts"; //импорт функций
 import { UserInfo } from "./lib/interfaces.ts";
 import { createClient } from "jsr:@supabase/supabase-js@2";
 
