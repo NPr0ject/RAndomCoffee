@@ -99,7 +99,7 @@ bot.callbackQuery("interestsDone", async (ctx) => {
 bot.callbackQuery("interestsNotDone", async (ctx) => {
   await ctx.deleteMessage();
   info.interests = "";
-  await ctx.reply("Хорошо, напиши увлечения занова!");
+  await ctx.reply("Напиши увлечения занова!");
   setState("setInterests");
 });
 bot.callbackQuery("1", async (ctx) => {
