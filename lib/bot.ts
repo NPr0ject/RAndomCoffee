@@ -29,7 +29,6 @@ export const info: UserInfo = {
   done: false,
   state: "",
 };
-
 // info будет нужна для сохранения инфо пользователя в бд (или получения) - представляет из себя набор данных о пользователе
 bot.command("start", async (ctx) => { // бот получает команду /start
   info.id = Number(ctx.msg.from?.id);
@@ -102,7 +101,31 @@ bot.callbackQuery("interestsNotDone", async (ctx) => {
   await ctx.reply("Хорошо, напиши еще увлечений!");
   setState("setInterests");
 });
-
+bot.callbackQuery("1", async (ctx) => {
+  await ctx.deleteMessage();
+  await ctx.reply("ВАУ ЭТО любимая кофейня моего создателя! \n Скуратов. 70 лет Октября, 7");
+  await reviewProfile(ctx);
+});
+bot.callbackQuery("2", async (ctx) => {
+  await ctx.deleteMessage();
+  await ctx.reply("Отлично! Скуратов. Мира, 7А");
+  await reviewProfile(ctx);
+});
+bot.callbackQuery("3", async (ctx) => {
+  await ctx.deleteMessage();
+  await ctx.reply("Отлично! Скуратов. Красный Путь, 63");
+  await reviewProfile(ctx);
+});
+bot.callbackQuery("4", async (ctx) => {
+  await ctx.deleteMessage();
+  await ctx.reply("Отлично! Скуратов. Иртышская Набережная, 30");
+  await reviewProfile(ctx);
+});
+bot.callbackQuery("5", async (ctx) => {
+  await ctx.deleteMessage();
+  await ctx.reply("ХОРОШО! Энитайм. Лобкова, 6/1");
+  await reviewProfile(ctx);
+});
 bot.hears(
   ["профиль", "Профиль", "Мой профиль", "Мой профиль 👤"],
   async (ctx) => {
