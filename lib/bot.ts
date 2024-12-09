@@ -16,7 +16,7 @@ export const users = supabase.from("users");// выпелил тк нашёл ч
 //объявил бота
 export const bot = new Bot<MyContext>(Deno.env.get("BOT_TOKEN") || "7785377297:AAHQXYH32S0fE5TOZvuN1GPxxAnHOvT0OXg");
 
-
+export const database = await Deno.openKv();
 
 // info будет нужна для сохранения инфо пользователя в бд (или получения) - представляет из себя набор данных о пользователе  
 export const info: UserInfo = {
