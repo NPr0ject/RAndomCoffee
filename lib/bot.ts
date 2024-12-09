@@ -8,7 +8,7 @@ const supabase = createClient(
   Deno.env.get("https://goscxscwzyizqwwwiyxe.supabase.co")!,
   Deno.env.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdvc2N4c2N3enlpenF3d3dpeXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM2ODkwMDYsImV4cCI6MjA0OTI2NTAwNn0.WmLJMzxmMvdF8T9Gncd1L6oem0d7C6ZtHVTKIqzdviw")!,
 );
-//инициализация supabase
+/*инициализация supabase
 const supabaseUrl = "https://goscxscwzyizqwwwiyxe.supabase.co";
 const supabaseKey = Deno.env.get("SUPABASE_KEY") || "";
 const supabase = createClient(supabaseUrl, supabaseKey);
