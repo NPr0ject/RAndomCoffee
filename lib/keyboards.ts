@@ -8,6 +8,7 @@ export const acceptKeyboard = new Keyboard().text("Да!").text(
 )
   .resized(true).oneTime(true);
 
+
 export const changesKeyboard = new Keyboard().text(
   "Хочу заполнить профиль заново",
 )
@@ -20,3 +21,20 @@ export const yesOrNo = new InlineKeyboard().text("Да✅", "interestsDone").tex
 );
 
 export const menuKeyboard = new Keyboard().text("Мой профиль 👤");
+
+export const interesKeyboard = new InlineKeyboard()
+  .text("Скуратов. 70 лет Октября, 7").row()
+  .text("Скуратов. Мира, 7А").row()
+  .text("Скуратов. Красный Путь, 63").row()
+  .text("Скуратов. Иртышская Набережная, 30").row()
+  .text("Энитайм. Лобкова, 6/1");
+
+
+export const coffeeKeyboard=new InlineKeyboard()
+  .text("Codding").row()
+  .text("Web-desigm").row()
+  .text("SMM").row()
+  .text("UX-design").row()
+  .text("UI-design").row()
+  .text("PC-building").row()
+  .text("PC-repair");
