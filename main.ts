@@ -1,12 +1,9 @@
+// RandomCoffee/main.ts
 import { webhookCallback } from "https://deno.land/x/grammy@v1.32.0/mod.ts";
 import express, { Request, Response } from 'npm:express';
-import { bot, supabase } from "./lib/bot.ts";
-import { menuKeyboard, yesOrNo } from "./lib/keyboards.ts"; // импорт клавиатур
-import { getProfile, reviewProfile, setState, getSimularUsers } from "./lib/functions.ts"; //импорт функций
-import { UserInfo } from "./lib/interfaces.ts";
-import { createClient } from "jsr:@supabase/supabase-js@2";
-
+import { bot } from "./lib/bot.ts";
 const app = express();
+
 
 const handleUpdate = webhookCallback(bot, 'express');
 
@@ -27,7 +24,7 @@ app.post(web_hook_path, async (req: Request, res: Response) => {
     }
 });
 
-// Слушаем на порту 5000
+// Слушаем на порту 5000 и выводим сообщение в консоль
 const PORT = 5000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
