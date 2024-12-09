@@ -1,5 +1,5 @@
 import { Context } from "https://deno.land/x/grammy@v1.32.0/mod.ts";
-import { info, users } from "./bot.ts";
+import { info, supabase } from "./bot.ts";
 import { acceptKeyboard } from "./keyboards.ts";
 
 export async function getProfile() {
