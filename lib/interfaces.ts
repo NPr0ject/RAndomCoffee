@@ -6,6 +6,7 @@ export interface UserInfo {
   age: number;
   interests: string[];
   time: number;
+  //image: file;
   coffee: number;
   done: boolean;
   state: string;
