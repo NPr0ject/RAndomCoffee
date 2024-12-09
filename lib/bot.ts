@@ -26,7 +26,7 @@ export const info: UserInfo = {
   age: 0,
   interests: [],
   coffee: 0,
-  time 0;
+  time: 0,
   done: false,
   state: "",
 };
