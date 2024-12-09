@@ -24,7 +24,7 @@ export const info: UserInfo = {
   name: "",
   age: 0,
   interests: [],
-  coffee: 0,
+  coffee: "",
   time: 0,
   done: false,
   state: "",
@@ -104,26 +104,31 @@ bot.callbackQuery("interestsNotDone", async (ctx) => {
 bot.callbackQuery("1", async (ctx) => {
   await ctx.deleteMessage();
   await ctx.reply("ВАУ ЭТО любимая кофейня моего создателя! \n Скуратов. 70 лет Октября, 7");
+  info.coffee = "Скуратов. 70 лет Октября, 7"
   setState("setTime");
 });
 bot.callbackQuery("2", async (ctx) => {
   await ctx.deleteMessage();
   await ctx.reply("Отлично! Скуратов. Мира, 7А");
+  info.coffee = "Скуратов. Мира, 7А"
   setState("setTime");
 });
 bot.callbackQuery("3", async (ctx) => {
   await ctx.deleteMessage();
   await ctx.reply("Отлично! Скуратов. Красный Путь, 63");
+  info.coffee = "Скуратов. Красный Путь, 63"
   setState("setTime");
 });
 bot.callbackQuery("4", async (ctx) => {
   await ctx.deleteMessage();
   await ctx.reply("Отлично! Скуратов. Иртышская Набережная, 30");
+  info.coffee = "Скуратов. Иртышская Набережная, 30"
   setState("setTime");
 });
 bot.callbackQuery("5", async (ctx) => {
   await ctx.deleteMessage();
   await ctx.reply("ХОРОШО! Энитайм. Лобкова, 6/1");
+  info.coffee = "Энитайм. Лобкова, 6/1"
   setState("setTime");
 });
 bot.hears(
@@ -159,22 +164,23 @@ bot.on("message", async (ctx) => {
           return;
         }
         info.age = Number(ctx.msg.text);
-          await ctx.reply("Выбери кофейню по душе!"/*, { reply_markup: interesKeyboard }*/ )//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
+          await ctx.reply("Выбери кофейню по душе!", { reply_markup: interesKeyboard })//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
         //setState("setCoffee");
         break;
         
         case "setCoffee":
-        if(isNaN(Number(ctx.msg.text)) || Number(ctx.msg.text) > 5){
+        /*if(isNaN(Number(ctx.msg.text)) || Number(ctx.msg.text) > 5){
           await ctx.reply("Чёт я тебя не понял|-1-|");
           return;
         }
-        info.coffee = Number(ctx.msg.text);
+        info.coffee = Number(ctx.msg.text);*/
         await ctx.reply(
           "Хорошо! а теперь скажи мне время в которое тебе удобно",//"Хорошо! Твоя анкета создана! Жди новых сообщений с предложением попить кофейку!",
         );
         await ctx.reply(
           "PS: напиши только час в 24-часовой системе",
         );
+        setState("setTime");
         break;
 
         case "setTime":

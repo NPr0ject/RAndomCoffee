@@ -7,7 +7,7 @@ export interface UserInfo {
   interests: string[];
   time: number;
   //image: file;
-  coffee: number;
+  coffee: string;
   done: boolean;
   state: string;
 }
