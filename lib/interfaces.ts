@@ -4,7 +4,7 @@ export interface UserInfo {
   id: number;
   name: string;
   age: number;
-  interests: string[];
+  interests: string;
   time: number;
   //image: file;
   coffee: string;

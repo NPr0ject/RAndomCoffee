@@ -23,7 +23,7 @@ export const info: UserInfo = {
   id: 0,
   name: "",
   age: 0,
-  interests: [],
+  interests: "",
   coffee: "",
   time: 0,
   done: false,
@@ -225,16 +225,12 @@ bot.on("message", async (ctx) => {
 
         
         case "setInterests":
-        if (ctx.msg.text) {
-          for (const interest of ctx.msg.text?.split(",")) {
-            info.interests.push(interest.trim());
-          }
-        }
+        info.interests = ctx.msg.text || "";
         await ctx.reply(
           "Вот это твои интересы:",
         );
         await ctx.reply(
-          info.interests.toString(),
+          info.interests,
         );
         await ctx.reply("Интересно конечно. Это всё??", { reply_markup: yesOrNo }); // смотри bot.callbackQuery
         break;
