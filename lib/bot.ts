@@ -159,8 +159,8 @@ bot.on("message", async (ctx) => {
           return;
         }
         info.age = Number(ctx.msg.text);
-          await ctx.reply("Выбери кофейню по душе!", { reply_markup: interesKeyboard } )//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
-        setState("setCoffee");
+          await ctx.reply("Выбери кофейню по душе!"/*, { reply_markup: interesKeyboard }*/ )//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
+        //setState("setCoffee");
         break;
         
         case "setCoffee":
