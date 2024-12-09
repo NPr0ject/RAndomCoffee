@@ -3,6 +3,8 @@ import express, { Request, Response } from 'npm:express';
 import { bot } from "./lib/bot.ts";
 import { menuKeyboard, yesOrNo } from "./keyboards.ts"; // импорт клавиатур
 import { getProfile, reviewProfile, setState, getSimularUsers } from "./functions.ts"; //импорт функций
+import { UserInfo } from "./interfaces.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const app = express();
 
