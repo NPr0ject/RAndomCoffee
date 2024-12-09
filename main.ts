@@ -1,6 +1,8 @@
 import { webhookCallback } from "https://deno.land/x/grammy@v1.32.0/mod.ts";
 import express, { Request, Response } from 'npm:express';
 import { bot } from "./lib/bot.ts";
+import { menuKeyboard, yesOrNo } from "./keyboards.ts"; // импорт клавиатур
+import { getProfile, reviewProfile, setState, getSimularUsers } from "./functions.ts"; //импорт функций
 
 const app = express();
 
