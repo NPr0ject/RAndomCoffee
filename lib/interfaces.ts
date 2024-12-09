@@ -5,7 +5,8 @@ export interface UserInfo {
   name: string;
   age: number;
   interests: string[];
-  coffee:string;
+  time: number;
+  coffee: number;
   done: boolean;
   state: string;
 }
