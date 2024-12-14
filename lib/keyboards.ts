@@ -15,7 +15,7 @@ export const changesKeyboard = new Keyboard().text(
   .row().text("Имя").text("Возраст").row().text("Интересы").text("Геопозицию")
   .row().text("Удобное время").resized(true).oneTime(true);
 
-export const yesOrNo = new InlineKeyboard().text("ВСЁ ОК", "interestsDone").text(
+export const choose = new InlineKeyboard().text("ВСЁ ОК", "interestsDone").text(
   "ВСЁ не ОК",
   "interestsNotDone",
 );
