@@ -1,24 +1,16 @@
 import { Bot, Context } from "https://deno.land/x/grammy@v1.32.0/mod.ts";
-import { menuKeyboard, yesOrNo, interesKeyboard } from "./keyboards.ts"; // импорт клавиатур
-import { getProfile, reviewProfile, setState, getSimularUsers } from "./functions.ts"; //импорт функций
-import { createClient } from "npm:@supabase/supabase-js"; // database
+import { menuKeyboard, choose, interesKeyboard } from "./keyboards.ts"; 
+import { getProfile, reviewProfile, setState, getSimularUsers } from "./functions.ts"; 
+import { createClient } from "npm:@supabase/supabase-js"; 
 import { UserInfo } from "./interfaces.ts";
-/*import { createClient } from "jsr:@supabase/supabase-js@2";
-const supabase = createClient(
-  Deno.env.get("https://goscxscwzyizqwwwiyxe.supabase.co")!,
-  Deno.env.get("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdvc2N4c2N3enlpenF3d3dpeXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM2ODkwMDYsImV4cCI6MjA0OTI2NTAwNn0.WmLJMzxmMvdF8T9Gncd1L6oem0d7C6ZtHVTKIqzdviw")!,
-);*/
-//инициализация supabase
 const supabaseUrl = "https://goscxscwzyizqwwwiyxe.supabase.co";
-const supabaseKey = Deno.env.get("SUPABASE_KEY") || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdvc2N4c2N3enlpenF3d3dpeXhlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM2ODkwMDYsImV4cCI6MjA0OTI2NTAwNn0.WmLJMzxmMvdF8T9Gncd1L6oem0d7C6ZtHVTKIqzdviw";
+const supabaseKey = Deno.env.get("SUPABASE_KEY") || "";// выпилил
 const supabase = createClient(supabaseUrl, supabaseKey);
-export const users = supabase.from("users");// выпелил тк нашёл что подругому объявляется эта сука
-//объявил бота
-export const bot = new Bot<MyContext>(Deno.env.get("BOT_TOKEN") || "7785377297:AAHQXYH32S0fE5TOZvuN1GPxxAnHOvT0OXg");
+export const users = supabase.from("users");
+export const bot = new Bot<MyContext>(Deno.env.get("BOT_TOKEN") || "");// и это тоже выпилил
 
 export const database = await Deno.openKv();
 
-// info будет нужна для сохранения инфо пользователя в бд (или получения) - представляет из себя набор данных о пользователе  
 export const info: UserInfo = {
   id: 0,
   name: "",
@@ -29,7 +21,6 @@ export const info: UserInfo = {
   done: false,
   state: "",
 };
-// info будет нужна для сохранения инфо пользователя в бд (или получения) - представляет из себя набор данных о пользователе
 bot.command("start", async (ctx) => { // бот получает команду /start
   info.id = Number(ctx.msg.from?.id);
   if (await getProfile()) {
@@ -44,13 +35,11 @@ bot.command("start", async (ctx) => { // бот получает команду 
     );
     await ctx.reply(
       "Звать то тебя как? А прозвище то есть?",
-      //{ parse_mode: "HTML" }, // нужно, чтобы использовать теги из html // а я не понял
     );
-    setState("setName"); // следующим сообщением боту должно придти имя
+    setState("setName"); 
   }
 });
 
-// Команда /like
 bot.command("like", async (ctx) => {
     const userId = ctx.from?.id.toString();
     if (!userId) return;
@@ -233,7 +222,7 @@ bot.on("message", async (ctx) => {
         await ctx.reply(
           info.interests,
         );
-        await ctx.reply("Интересно конечно. Это всё??", { reply_markup: yesOrNo }); // смотри bot.callbackQuery
+        await ctx.reply("Интересно конечно. Это всё??", { reply_markup: choose }); // смотри bot.callbackQuery
         break;
 
       case "review":
