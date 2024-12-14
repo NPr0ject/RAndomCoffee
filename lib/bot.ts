@@ -1,6 +1,6 @@
 import { Bot, Context } from "https://deno.land/x/grammy@v1.32.0/mod.ts";
 import { menuKeyboard, choose, interesKeyboard } from "./keyboards.ts"; 
-import { getProfile, reviewProfile, setState, getSimularUsers } from "./functions.ts"; 
+import { getProfile, reviewProfile, setState} from "./functions.ts"; 
 import { createClient } from "npm:@supabase/supabase-js"; 
 import { UserInfo } from "./interfaces.ts";
 const supabaseUrl = "https://goscxscwzyizqwwwiyxe.supabase.co";
@@ -21,7 +21,7 @@ export const info: UserInfo = {
   done: false,
   state: "",
 };
-bot.command("start", async (ctx) => { // бот получает команду /start
+bot.command("start", async (ctx) => { 
   info.id = Number(ctx.msg.from?.id);
   if (await getProfile()) {
     await ctx.reply(`Привет, ${info.name}!`, { reply_markup: menuKeyboard });
@@ -79,7 +79,6 @@ bot.command("stats", async (ctx) => {
     await ctx.reply(response);
 });
 
-// обработка подтверждения интересов
 bot.callbackQuery("interestsDone", async (ctx) => {
   await ctx.deleteMessage();
   await ctx.reply("Отлично!");
@@ -159,19 +158,19 @@ bot.hears(
 );
 
 bot.on("message", async (ctx) => {
-  if (info.state) { // при непустом info.state
+  if (info.state) {
     switch (info.state) {
       case "setName":
         if (
           typeof ctx.msg.text !== "string" ||
-          /[0-9_.*^%$#@!]/.test(ctx.msg.text) // регулярное выражение на проверку спец символов
+          /[0-9_.*^%$#@!]/.test(ctx.msg.text) // проверяем на разные символы
         ) {
           await ctx.reply(
             "Косяк! Имя не должно содержать числа и символы",
           );
           return;
         } else {
-          info.name = ctx.msg.text || ""; //сохраняем в переменную
+          info.name = ctx.msg.text || ""; 
           await ctx.reply("Ну, проходи тогда,  " + info.name + "!");
           await ctx.reply("Сколько лет то тебе?");
           setState("setAge");
@@ -185,15 +184,9 @@ bot.on("message", async (ctx) => {
         }
         info.age = Number(ctx.msg.text);
           await ctx.reply("Выбери кофейню по душе!", { reply_markup: interesKeyboard })//"Круто! напиши свои интересы ЧЕРЕЗ запятую",
-        //setState("setCoffee");
         break;
         
         case "setCoffee":
-        /*if(isNaN(Number(ctx.msg.text)) || Number(ctx.msg.text) > 5){
-          await ctx.reply("Чёт я тебя не понял|-1-|");
-          return;
-        }
-        info.coffee = Number(ctx.msg.text);*/
         await ctx.reply(
           "Хорошо! а теперь скажи мне время в которое тебе удобно",//"Хорошо! Твоя анкета создана! Жди новых сообщений с предложением попить кофейку!",
         );
@@ -222,7 +215,7 @@ bot.on("message", async (ctx) => {
         await ctx.reply(
           info.interests,
         );
-        await ctx.reply("Интересно конечно. Это всё??", { reply_markup: choose }); // смотри bot.callbackQuery
+        await ctx.reply("Интересно конечно. Это всё??", { reply_markup: choose });
         break;
 
       case "review":
@@ -240,7 +233,6 @@ bot.on("message", async (ctx) => {
             }).eq("tg_id", info.id).single();
             console.log(data, error)
             await ctx.reply("Жди пока Я найду Тебе собеседники)");
-            //setState("searching")
             break;
 
           case "Нет, хочу изменить":
@@ -260,13 +252,6 @@ bot.on("message", async (ctx) => {
     }
   }
 });
-// пу пу пу
-//скажем что хуйня
-/*while (info.state == "searching") {
-  setInterval(async ()=>{
-    const users = await getSimularUsers()
-    if (users.length>0) {
-      console.log("ого")
-    }
-  }, 10000)
-}*/
+// выпили поиск что бы работало
+
+
